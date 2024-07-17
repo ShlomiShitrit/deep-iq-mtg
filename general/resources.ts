@@ -21,3 +21,20 @@ export const COUNTERS: CounterProps[] = [
         color: "#00b0ff",
     },
 ];
+
+export const COLORS = ["black", "green", "blue", "red", "white"];
+
+export const buttonSize = {
+    sm: {
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+    },
+    md: {
+        paddingVertical: 20,
+        paddingHorizontal: 20,
+    },
+    lg: {
+        paddingVertical: 30,
+        paddingHorizontal: 25,
+    },
+};

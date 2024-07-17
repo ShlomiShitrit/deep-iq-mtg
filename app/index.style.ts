@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     },
     topContainer: {
         position: "absolute",
-        top: 70, // Adjust as needed
+        top: 50, // Adjust as needed
         width: "100%",
         alignItems: "center",
     },
@@ -22,5 +22,9 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginBottom: "15%",
+    },
+    rightContainer: {
+        position: "absolute",
+        right: 10, // Adjust as needed
     }
 });
