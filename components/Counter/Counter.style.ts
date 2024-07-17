@@ -22,7 +22,6 @@ export const styles = StyleSheet.create({
         elevation: 3,
     },
     button: {
-        backgroundColor: "#6200ee",
         padding: 10,
         borderRadius: 50,
         marginHorizontal: 10,
