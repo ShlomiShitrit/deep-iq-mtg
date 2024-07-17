@@ -11,4 +11,16 @@ export const styles = StyleSheet.create({
         width: "100%",
         alignItems: "center",
     },
+    topContainer: {
+        position: "absolute",
+        top: 70, // Adjust as needed
+        width: "100%",
+        alignItems: "center",
+    },
+    middleContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: "15%",
+    }
 });
