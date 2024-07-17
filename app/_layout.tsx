@@ -1,9 +1,12 @@
 import { Stack } from "expo-router";
+import { RecoilRoot } from "recoil";
 
 export default function RootLayout() {
     return (
-        <Stack>
-            <Stack.Screen name="index" options={{ headerShown: false }} />
-        </Stack>
+        <RecoilRoot>
+            <Stack>
+                <Stack.Screen name="index" options={{ headerShown: false }} />
+            </Stack>
+        </RecoilRoot>
     );
 }

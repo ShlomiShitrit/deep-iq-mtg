@@ -3,6 +3,7 @@ export interface CounterProps {
     name: string;
     color?: string;
     isNegativeAllowed?: boolean;
+    isAggro?: boolean;
 }
 
 export interface SmallGridProps {
@@ -22,10 +23,15 @@ export interface ColorPickerProps {
     onColorSelect: (color: string) => void;
 }
 
-
 export interface PopupProps {
     visible: boolean;
     onClose: () => void;
     selectedColors: string[];
     onColorSelect: (color: string) => void;
-  }
+}
+
+export interface CardPopupProps {
+    visible: boolean;
+    onClose: () => void;
+    message: string;
+}
