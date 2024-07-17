@@ -13,4 +13,19 @@ export interface SmallGridProps {
 export interface CustomButtonProps {
     title: string;
     onPress: () => void;
+    size?: "sm" | "md" | "lg";
+    color?: string;
 }
+
+export interface ColorPickerProps {
+    selectedColors: string[];
+    onColorSelect: (color: string) => void;
+}
+
+
+export interface PopupProps {
+    visible: boolean;
+    onClose: () => void;
+    selectedColors: string[];
+    onColorSelect: (color: string) => void;
+  }
