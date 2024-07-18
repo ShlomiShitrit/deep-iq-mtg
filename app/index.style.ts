@@ -25,6 +25,17 @@ export const styles = StyleSheet.create({
     },
     rightContainer: {
         position: "absolute",
-        right: 10, // Adjust as needed
+        right: 30, // Adjust as needed
+    },
+    leftContainer: {
+        position: "absolute",
+        left: 30, // Adjust as needed
+    },
+    space: {
+        marginBottom: 20,
+    },
+    longSpace: {
+        marginTop: 150,
+        marginRight: 30,
     }
 });
