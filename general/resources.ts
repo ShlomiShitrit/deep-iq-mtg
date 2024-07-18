@@ -228,36 +228,43 @@ export const TABLES = {
     },
 };
 
-export const otherTables = {
-    cs: {
-        0: {
-            text: "No Effect",
-        },
-        1: {
-            text: "Counter Target Spell or Ability",
-        },
-        2: {
-            text: "Counter Target Spell. (Treat this as a 'No Effect' if this roll was triggered by an ability)",
-        },
-        3: {
-            text: "Counter target spell or non-mana ability. If a spell is countered this way, exile it. If an ability is countered this way, return the source of that ability to its owner’s hand.",
-        },
+export const CS_TABLE = {
+    1: {
+        text: "No Effect",
     },
-    ct: {
-        0: {
-            text: "No effect.",
-        },
-        1: {
-            text: "Untap target creature you control. It gains +2/+2, reach, and haste until end of turn. It must be blocked this turn if able.",
-        },
-        2: {
-            text: "Creatures you control gain indestructible until end of turn. Until end of turn, whenever a creature you control blocks, target creature it blocks loses all abilities until end of turn.",
-        },
-        3: {
-            text: "Creatures you control gain wither and reach until end of turn.",
-        },
-        4: {
-            text: "Create X creatures, where X is the number of attacking creatures. They each enter the battlefield blocking a different creature attacking you. Sacrifice them at the beginning of your next upkeep.",
-        },
+    2: {
+        text: "No Effect",
+    },
+    3: {
+        text: "No Effect",
+    },
+    4: {
+        text: "Counter Target Spell or Ability",
+    },
+    5: {
+        text: "Counter Target Spell. (Treat this as a 'No Effect' if this roll was triggered by an ability)",
+    },
+    6: {
+        text: "Counter target spell or non-mana ability. If a spell is countered this way, exile it. If an ability is countered this way, return the source of that ability to its owner’s hand.",
+    },
+};
+export const CT_TABLE = {
+    1: {
+        text: "No effect.",
+    },
+    2: {
+        text: "No effect.",
+    },
+    3: {
+        text: "Untap target creature you control. It gains +2/+2, reach, and haste until end of turn. It must be blocked this turn if able.",
+    },
+    4: {
+        text: "Creatures you control gain indestructible until end of turn. Until end of turn, whenever a creature you control blocks, target creature it blocks loses all abilities until end of turn.",
+    },
+    5: {
+        text: "Creatures you control gain wither and reach until end of turn.",
+    },
+    6: {
+        text: "Create X creatures, where X is the number of attacking creatures. They each enter the battlefield blocking a different creature attacking you. Sacrifice them at the beginning of your next upkeep.",
     },
 };

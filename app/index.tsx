@@ -7,8 +7,8 @@ import SmallGrid from "@components/SmallGrid";
 import CustomButton from "@components/CustomButton";
 import Popup from "@components/PopUp";
 import CardPopUp from "@components/CardPopUp";
-import { COUNTERS, TABLES } from "@general/resources";
-import { randomFromArray, randomNumber } from "@general/utils";
+import { COUNTERS } from "@general/resources";
+import { iqTurn, rollTable } from "@general/utils";
 import { useRecoilState } from "recoil";
 import { aggroAtom } from "@store/atoms";
 
@@ -18,6 +18,10 @@ export default function Index() {
     const [aggroCount, setAggroCount] = useRecoilState(aggroAtom);
     const [currentCard, setCurrentCard] = useState<string>("");
     const [openCard, setOpenCard] = useState<boolean>(false);
+    const [currentCombatTrick, setCurrentCombatTrick] = useState<string>("");
+    const [currentCounterSpell, setCurrentCounterSpell] = useState<string>("");
+    const [openCT, setOpenCT] = useState<boolean>(false);
+    const [openCS, setOpenCS] = useState<boolean>(false);
 
     async function changeScreenOrientation() {
         await ScreenOrientation.lockAsync(
@@ -39,26 +43,8 @@ export default function Index() {
         });
     };
 
-    const iqTurn = () => {
-        const color = randomFromArray(selectedColors);
-        const table = TABLES[color as keyof typeof TABLES];
-        const n = randomNumber(1, 6) + aggroCount;
-        let card: string = "";
-        if (n <= -2) {
-            card = table[0].text;
-        } else if (n <= 1 && n >= -1) {
-            card = table[1].text;
-        } else if (n <= 4 && n >= 2) {
-            card = table[2].text;
-        } else if (n <= 6 && n >= 5) {
-            card = table[3].text;
-        } else if (n <= 8 && n >= 7) {
-            card = table[4].text;
-        } else if (n <= 12 && n >= 9) {
-            card = table[5].text;
-        } else if (n >= 13) {
-            card = table[6].text;
-        }
+    const handleIqTurn = () => {
+        const card = iqTurn(aggroCount, selectedColors);
         setCurrentCard(card);
         setOpenCard(true);
     };
@@ -67,10 +53,37 @@ export default function Index() {
         <SafeAreaView style={styles.container}>
             <View style={styles.topContainer}>
                 <View style={styles.rightContainer}>
+                <View style={styles.space}>
                     <CustomButton
                         title="Deck colors"
                         onPress={() => setOpenColors(true)}
                         size="sm"
+                        color="#00b0ff"
+                    />
+                    </View>
+                    <View style={styles.longSpace}>
+                    <Counter initCount={40} name="Player Life" color="#008080" />
+                    </View>
+                </View>
+                <View style={styles.leftContainer}>
+                    <View style={styles.space}>
+                    <CustomButton
+                        title="Combat Tricks"
+                        onPress={() => {
+                            setCurrentCombatTrick(rollTable("CT"));
+                            setOpenCT(true);
+                        }}
+                        size="md"
+                        color="#00c853"
+                    />
+                    </View>
+                    <CustomButton
+                        title="Counter Spells"
+                        onPress={() => {
+                            setCurrentCounterSpell(rollTable("CS"));
+                            setOpenCS(true);
+                        }}
+                        size="md"
                         color="#00b0ff"
                     />
                 </View>
@@ -85,9 +98,19 @@ export default function Index() {
                     onClose={() => setOpenCard(false)}
                     message={currentCard}
                 />
+                <CardPopUp
+                    visible={openCT}
+                    onClose={() => setOpenCT(false)}
+                    message={currentCombatTrick}
+                />
+                <CardPopUp
+                    visible={openCS}
+                    onClose={() => setOpenCS(false)}
+                    message={currentCounterSpell}
+                />
             </View>
             <View style={styles.middleContainer}>
-                <CustomButton title="IQ Turn" onPress={iqTurn} />
+                <CustomButton title="IQ Turn" onPress={handleIqTurn} />
             </View>
             <View style={styles.bottomContainer}>
                 <SmallGrid Component={Counter} componentsArray={COUNTERS} />
