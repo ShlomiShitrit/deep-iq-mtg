@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
         alignItems: "center",
     },
     gridItem: {
-        width: "40%", // Adjust as needed for spacing
+        width: "15%", // Adjust as needed for spacing
         aspectRatio: 1,
         margin: "2%", // Adjust for spacing between items
     },
