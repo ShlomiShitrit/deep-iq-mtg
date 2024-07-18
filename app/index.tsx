@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SafeAreaView, View } from "react-native";
+import * as ScreenOrientation from "expo-screen-orientation";
 import { styles } from "./index.style";
 import Counter from "@components/Counter";
 import SmallGrid from "@components/SmallGrid";
@@ -17,6 +18,16 @@ export default function Index() {
     const [aggroCount, setAggroCount] = useRecoilState(aggroAtom);
     const [currentCard, setCurrentCard] = useState<string>("");
     const [openCard, setOpenCard] = useState<boolean>(false);
+
+    async function changeScreenOrientation() {
+        await ScreenOrientation.lockAsync(
+            ScreenOrientation.OrientationLock.LANDSCAPE
+        );
+    }
+
+    useEffect(() => {
+        changeScreenOrientation();
+    }, []);
 
     const handleColorSelect = (color: string) => {
         setSelectedColors((prevColors) => {
@@ -76,10 +87,7 @@ export default function Index() {
                 />
             </View>
             <View style={styles.middleContainer}>
-                <CustomButton
-                    title="IQ Turn"
-                    onPress={iqTurn}
-                />
+                <CustomButton title="IQ Turn" onPress={iqTurn} />
             </View>
             <View style={styles.bottomContainer}>
                 <SmallGrid Component={Counter} componentsArray={COUNTERS} />
