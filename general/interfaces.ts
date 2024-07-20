@@ -1,3 +1,6 @@
+import { StyleProp } from "react-native";
+import { Children } from "@general/types";
+
 export interface CounterProps {
     initCount: number;
     name: string;
@@ -29,4 +32,9 @@ export interface PopupProps {
     children?: React.ReactNode;
     message: string;
     title: string;
+}
+
+export interface SectionProps {
+    children: Children[];
+    style: StyleProp<any>;
 }
