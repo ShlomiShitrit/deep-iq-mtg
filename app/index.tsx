@@ -5,23 +5,28 @@ import { styles } from "./index.style";
 import Counter from "@components/Counter";
 import SmallGrid from "@components/SmallGrid";
 import CustomButton from "@components/CustomButton";
+import ColorPicker from "@components/ColorPicker";
 import Popup from "@components/PopUp";
-import CardPopUp from "@components/CardPopUp";
 import { COUNTERS } from "@general/resources";
 import { iqTurn, rollTable } from "@general/utils";
+import { ObjectStates } from "@general/types";
 import { useRecoilState } from "recoil";
 import { aggroAtom } from "@store/atoms";
 
 export default function Index() {
     const [selectedColors, setSelectedColors] = useState<string[]>([]);
-    const [openColors, setOpenColors] = useState<boolean>(false);
-    const [aggroCount, setAggroCount] = useRecoilState(aggroAtom);
-    const [currentCard, setCurrentCard] = useState<string>("");
-    const [openCard, setOpenCard] = useState<boolean>(false);
-    const [currentCombatTrick, setCurrentCombatTrick] = useState<string>("");
-    const [currentCounterSpell, setCurrentCounterSpell] = useState<string>("");
-    const [openCT, setOpenCT] = useState<boolean>(false);
-    const [openCS, setOpenCS] = useState<boolean>(false);
+    const [aggroCount, _] = useRecoilState(aggroAtom);
+    const [currentPlay, setCurrentPlay] = useState<ObjectStates<string>>({
+        card: "",
+        ct: "",
+        cs: "",
+    });
+    const [openPopup, setOpenPopup] = useState<ObjectStates<boolean>>({
+        colors: false,
+        card: false,
+        ct: false,
+        cs: false,
+    });
 
     async function changeScreenOrientation() {
         await ScreenOrientation.lockAsync(
@@ -45,68 +50,90 @@ export default function Index() {
 
     const handleIqTurn = () => {
         const card = iqTurn(aggroCount, selectedColors);
-        setCurrentCard(card);
-        setOpenCard(true);
+        setCurrentPlay({ ...currentPlay, card });
+        setOpenPopup({ ...openPopup, card: true });
     };
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topContainer}>
                 <View style={styles.rightContainer}>
-                <View style={styles.space}>
-                    <CustomButton
-                        title="Deck colors"
-                        onPress={() => setOpenColors(true)}
-                        size="sm"
-                        color="#00b0ff"
-                    />
+                    <View style={styles.space}>
+                        <CustomButton
+                            title="Deck colors"
+                            onPress={() =>
+                                setOpenPopup({ ...openPopup, colors: true })
+                            }
+                            size="sm"
+                            color="#00b0ff"
+                        />
                     </View>
                     <View style={styles.longSpace}>
-                    <Counter initCount={40} name="Player Life" color="#008080" />
+                        <Counter
+                            initCount={40}
+                            name="Player Life"
+                            color="#008080"
+                        />
                     </View>
                 </View>
                 <View style={styles.leftContainer}>
                     <View style={styles.space}>
-                    <CustomButton
-                        title="Combat Tricks"
-                        onPress={() => {
-                            setCurrentCombatTrick(rollTable("CT"));
-                            setOpenCT(true);
-                        }}
-                        size="md"
-                        color="#00c853"
-                    />
+                        <CustomButton
+                            title="Combat Tricks"
+                            onPress={() => {
+                                setCurrentPlay({
+                                    ...currentPlay,
+                                    ct: rollTable("CT"),
+                                });
+                                setOpenPopup({ ...openPopup, ct: true });
+                            }}
+                            size="md"
+                            color="#00c853"
+                        />
                     </View>
                     <CustomButton
                         title="Counter Spells"
                         onPress={() => {
-                            setCurrentCounterSpell(rollTable("CS"));
-                            setOpenCS(true);
+                            setCurrentPlay({
+                                ...currentPlay,
+                                cs: rollTable("CS"),
+                            });
+                            setOpenPopup({ ...openPopup, cs: true });
                         }}
                         size="md"
                         color="#00b0ff"
                     />
                 </View>
                 <Popup
-                    visible={openColors}
-                    onClose={() => setOpenColors(false)}
-                    selectedColors={selectedColors}
-                    onColorSelect={handleColorSelect}
+                    visible={openPopup.colors}
+                    onClose={() =>
+                        setOpenPopup({ ...openPopup, colors: false })
+                    }
+                    title="Select deck colors"
+                    message=""
+                >
+                    <ColorPicker
+                        selectedColors={selectedColors}
+                        onColorSelect={handleColorSelect}
+                    />
+                </Popup>
+                <Popup
+                    visible={openPopup.card}
+                    onClose={() => setOpenPopup({ ...openPopup, card: false })}
+                    message={currentPlay.card}
+                    title="IQ Turn"
                 />
-                <CardPopUp
-                    visible={openCard}
-                    onClose={() => setOpenCard(false)}
-                    message={currentCard}
+                <Popup
+                    visible={openPopup.ct}
+                    onClose={() => setOpenPopup({ ...openPopup, ct: false })}
+                    message={currentPlay.ct}
+                    title="Combat Trick"
                 />
-                <CardPopUp
-                    visible={openCT}
-                    onClose={() => setOpenCT(false)}
-                    message={currentCombatTrick}
-                />
-                <CardPopUp
-                    visible={openCS}
-                    onClose={() => setOpenCS(false)}
-                    message={currentCounterSpell}
+                <Popup
+                    visible={openPopup.cs}
+                    onClose={() => setOpenPopup({ ...openPopup, cs: false })}
+                    message={currentPlay.cs}
+                    title="Counter Spell"
                 />
             </View>
             <View style={styles.middleContainer}>

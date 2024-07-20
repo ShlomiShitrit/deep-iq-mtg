@@ -26,12 +26,7 @@ export interface ColorPickerProps {
 export interface PopupProps {
     visible: boolean;
     onClose: () => void;
-    selectedColors: string[];
-    onColorSelect: (color: string) => void;
-}
-
-export interface CardPopupProps {
-    visible: boolean;
-    onClose: () => void;
+    children?: React.ReactNode;
     message: string;
+    title: string;
 }
