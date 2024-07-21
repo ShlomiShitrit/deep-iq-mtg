@@ -1,4 +1,5 @@
 import { TABLES, CS_TABLE, CT_TABLE } from "@general/resources";
+import { stateType } from "@general/types";
 export function randomFromArray(arr: string[] | number[]): string | number {
     return arr[Math.floor(Math.random() * arr.length)];
 }
@@ -34,4 +35,14 @@ export function rollTable(table: "CT" | "CS") {
     const roll = randomNumber(1, 6);
     const chosenTable = table === "CT" ? CT_TABLE : CS_TABLE;
     return chosenTable[roll as keyof typeof chosenTable].text;
+}
+
+export function convertStateToObject<T>(
+    state: T,
+    setState: React.Dispatch<React.SetStateAction<T>>
+): stateType<T> {
+    return {
+        state,
+        setState,
+    };
 }

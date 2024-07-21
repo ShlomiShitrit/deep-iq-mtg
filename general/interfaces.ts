@@ -1,3 +1,7 @@
+import React from "react";
+import { StyleProp } from "react-native";
+import { Children, ObjectStates, stateType } from "@general/types";
+
 export interface CounterProps {
     initCount: number;
     name: string;
@@ -26,12 +30,27 @@ export interface ColorPickerProps {
 export interface PopupProps {
     visible: boolean;
     onClose: () => void;
-    selectedColors: string[];
-    onColorSelect: (color: string) => void;
+    children?: React.ReactNode;
+    message: string;
+    title: string;
 }
 
-export interface CardPopupProps {
-    visible: boolean;
-    onClose: () => void;
-    message: string;
+export interface SectionProps {
+    children: Children[];
+    style: StyleProp<any>;
+}
+
+interface PopAndPlay {
+    currentPlay: stateType<ObjectStates<string>>;
+    openPopup: stateType<ObjectStates<boolean>>;
+}
+
+export interface LeftSectionProps extends PopAndPlay {}
+
+export interface RightSectionProps {
+    openPopup: stateType<ObjectStates<boolean>>;
+}
+
+export interface PopupGridProps extends PopAndPlay {
+    selectedColors: stateType<string[]>;
 }

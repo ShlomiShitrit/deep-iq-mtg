@@ -1,13 +1,13 @@
 import { View, Modal, Text, TouchableOpacity } from "react-native";
 import { styles } from "./PopUp.style";
 import { PopupProps } from "@general/interfaces";
-import ColorPicker from "@components/ColorPicker";
 
 export default function PopUp({
     visible,
     onClose,
-    selectedColors,
-    onColorSelect,
+    children,
+    message,
+    title,
 }: PopupProps) {
     return (
         <Modal
@@ -18,10 +18,9 @@ export default function PopUp({
         >
             <View style={styles.overlay}>
                 <View style={styles.popup}>
-                    <ColorPicker
-                        selectedColors={selectedColors}
-                        onColorSelect={onColorSelect}
-                    />
+                    {children}
+                    <Text style={styles.title}>{title}</Text>
+                    <Text style={styles.message}>{message}</Text>
                     <TouchableOpacity style={styles.button} onPress={onClose}>
                         <Text style={styles.buttonText}>Close</Text>
                     </TouchableOpacity>

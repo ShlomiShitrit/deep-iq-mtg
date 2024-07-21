@@ -1,112 +1,70 @@
 import { useState, useEffect } from "react";
 import { SafeAreaView, View } from "react-native";
-import * as ScreenOrientation from "expo-screen-orientation";
 import { styles } from "./index.style";
 import Counter from "@components/Counter";
 import SmallGrid from "@components/SmallGrid";
 import CustomButton from "@components/CustomButton";
-import Popup from "@components/PopUp";
-import CardPopUp from "@components/CardPopUp";
+import LeftSection from "@components/LeftSection";
+import RightSection from "@components/RightSection";
+import PopupGrid from "@/components/PopupGrid";
 import { COUNTERS } from "@general/resources";
-import { iqTurn, rollTable } from "@general/utils";
+import { iqTurn, convertStateToObject } from "@general/utils";
+import { ObjectStates } from "@general/types";
 import { useRecoilState } from "recoil";
 import { aggroAtom } from "@store/atoms";
+import { PLAY_STATE, POPUP_STATE } from "@general/constants";
+import useOrientation from "@hooks/useOrientation";
 
 export default function Index() {
     const [selectedColors, setSelectedColors] = useState<string[]>([]);
-    const [openColors, setOpenColors] = useState<boolean>(false);
-    const [aggroCount, setAggroCount] = useRecoilState(aggroAtom);
-    const [currentCard, setCurrentCard] = useState<string>("");
-    const [openCard, setOpenCard] = useState<boolean>(false);
-    const [currentCombatTrick, setCurrentCombatTrick] = useState<string>("");
-    const [currentCounterSpell, setCurrentCounterSpell] = useState<string>("");
-    const [openCT, setOpenCT] = useState<boolean>(false);
-    const [openCS, setOpenCS] = useState<boolean>(false);
+    const [aggroCount, _] = useRecoilState(aggroAtom);
+    const [currentPlay, setCurrentPlay] =
+        useState<ObjectStates<string>>(PLAY_STATE);
+    const [openPopup, setOpenPopup] =
+        useState<ObjectStates<boolean>>(POPUP_STATE);
 
-    async function changeScreenOrientation() {
-        await ScreenOrientation.lockAsync(
-            ScreenOrientation.OrientationLock.LANDSCAPE
-        );
-    }
+    const changeScreenOrientation = useOrientation("LANDSCAPE");
 
     useEffect(() => {
         changeScreenOrientation();
     }, []);
 
-    const handleColorSelect = (color: string) => {
-        setSelectedColors((prevColors) => {
-            if (prevColors.includes(color)) {
-                return prevColors.filter((c) => c !== color);
-            } else {
-                return [...prevColors, color];
-            }
-        });
-    };
+    const currentPlayState = convertStateToObject<ObjectStates<string>>(
+        currentPlay,
+        setCurrentPlay
+    );
+
+    const openPopupState = convertStateToObject<ObjectStates<boolean>>(
+        openPopup,
+        setOpenPopup
+    );
+
+    const selectedColorsState = convertStateToObject<string[]>(
+        selectedColors,
+        setSelectedColors
+    );
 
     const handleIqTurn = () => {
+        if (selectedColors.length === 0) {
+            return;
+        }
         const card = iqTurn(aggroCount, selectedColors);
-        setCurrentCard(card);
-        setOpenCard(true);
+        setCurrentPlay({ ...currentPlay, card });
+        setOpenPopup({ ...openPopup, card: true });
     };
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topContainer}>
-                <View style={styles.rightContainer}>
-                <View style={styles.space}>
-                    <CustomButton
-                        title="Deck colors"
-                        onPress={() => setOpenColors(true)}
-                        size="sm"
-                        color="#00b0ff"
-                    />
-                    </View>
-                    <View style={styles.longSpace}>
-                    <Counter initCount={40} name="Player Life" color="#008080" />
-                    </View>
-                </View>
-                <View style={styles.leftContainer}>
-                    <View style={styles.space}>
-                    <CustomButton
-                        title="Combat Tricks"
-                        onPress={() => {
-                            setCurrentCombatTrick(rollTable("CT"));
-                            setOpenCT(true);
-                        }}
-                        size="md"
-                        color="#00c853"
-                    />
-                    </View>
-                    <CustomButton
-                        title="Counter Spells"
-                        onPress={() => {
-                            setCurrentCounterSpell(rollTable("CS"));
-                            setOpenCS(true);
-                        }}
-                        size="md"
-                        color="#00b0ff"
-                    />
-                </View>
-                <Popup
-                    visible={openColors}
-                    onClose={() => setOpenColors(false)}
-                    selectedColors={selectedColors}
-                    onColorSelect={handleColorSelect}
+                <RightSection openPopup={openPopupState} />
+                <LeftSection
+                    currentPlay={currentPlayState}
+                    openPopup={openPopupState}
                 />
-                <CardPopUp
-                    visible={openCard}
-                    onClose={() => setOpenCard(false)}
-                    message={currentCard}
-                />
-                <CardPopUp
-                    visible={openCT}
-                    onClose={() => setOpenCT(false)}
-                    message={currentCombatTrick}
-                />
-                <CardPopUp
-                    visible={openCS}
-                    onClose={() => setOpenCS(false)}
-                    message={currentCounterSpell}
+                <PopupGrid
+                    currentPlay={currentPlayState}
+                    openPopup={openPopupState}
+                    selectedColors={selectedColorsState}
                 />
             </View>
             <View style={styles.middleContainer}>
