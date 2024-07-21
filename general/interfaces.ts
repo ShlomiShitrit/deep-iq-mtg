@@ -1,5 +1,6 @@
+import React from "react";
 import { StyleProp } from "react-native";
-import { Children } from "@general/types";
+import { Children, ObjectStates, stateType } from "@general/types";
 
 export interface CounterProps {
     initCount: number;
@@ -37,4 +38,19 @@ export interface PopupProps {
 export interface SectionProps {
     children: Children[];
     style: StyleProp<any>;
+}
+
+interface PopAndPlay {
+    currentPlay: stateType<ObjectStates<string>>;
+    openPopup: stateType<ObjectStates<boolean>>;
+}
+
+export interface LeftSectionProps extends PopAndPlay {}
+
+export interface RightSectionProps {
+    openPopup: stateType<ObjectStates<boolean>>;
+}
+
+export interface PopupGridProps extends PopAndPlay {
+    selectedColors: stateType<string[]>;
 }

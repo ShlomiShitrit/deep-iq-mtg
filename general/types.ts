@@ -10,3 +10,8 @@ export type Children = {
     component: JSX.Element;
     spaceStyle: StyleProp<any>;
 };
+
+export type stateType<T> = {
+    state: T;
+    setState: React.Dispatch<React.SetStateAction<T>>;
+};

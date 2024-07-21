@@ -4,17 +4,16 @@ import { styles } from "./index.style";
 import Counter from "@components/Counter";
 import SmallGrid from "@components/SmallGrid";
 import CustomButton from "@components/CustomButton";
-import ColorPicker from "@components/ColorPicker";
-import Popup from "@components/PopUp";
-import Section from "@/components/Section";
+import LeftSection from "@components/LeftSection";
+import RightSection from "@components/RightSection";
+import PopupGrid from "@/components/PopupGrid";
 import { COUNTERS } from "@general/resources";
-import { iqTurn, rollTable } from "@general/utils";
-import { ObjectStates, Children } from "@general/types";
+import { iqTurn, convertStateToObject } from "@general/utils";
+import { ObjectStates } from "@general/types";
 import { useRecoilState } from "recoil";
 import { aggroAtom } from "@store/atoms";
 import { PLAY_STATE, POPUP_STATE } from "@general/constants";
 import useOrientation from "@hooks/useOrientation";
-import { SectionProps } from "@general/interfaces";
 
 export default function Index() {
     const [selectedColors, setSelectedColors] = useState<string[]>([]);
@@ -30,127 +29,43 @@ export default function Index() {
         changeScreenOrientation();
     }, []);
 
-    const handleColorSelect = (color: string) => {
-        setSelectedColors((prevColors) => {
-            if (prevColors.includes(color)) {
-                return prevColors.filter((c) => c !== color);
-            } else {
-                return [...prevColors, color];
-            }
-        });
-    };
+    const currentPlayState = convertStateToObject<ObjectStates<string>>(
+        currentPlay,
+        setCurrentPlay
+    );
+
+    const openPopupState = convertStateToObject<ObjectStates<boolean>>(
+        openPopup,
+        setOpenPopup
+    );
+
+    const selectedColorsState = convertStateToObject<string[]>(
+        selectedColors,
+        setSelectedColors
+    );
 
     const handleIqTurn = () => {
+        if (selectedColors.length === 0) {
+            return;
+        }
         const card = iqTurn(aggroCount, selectedColors);
         setCurrentPlay({ ...currentPlay, card });
         setOpenPopup({ ...openPopup, card: true });
     };
 
-    const popupArray = [
-        {
-            name: "colors",
-            title: "Select deck colors",
-            children: (
-                <ColorPicker
-                    selectedColors={selectedColors}
-                    onColorSelect={handleColorSelect}
-                />
-            ),
-        },
-        {
-            name: "card",
-            title: "IQ Turn",
-        },
-        {
-            name: "ct",
-            title: "Combat Trick",
-        },
-        {
-            name: "cs",
-            title: "Counter Spell",
-        },
-    ];
-
-    const rightSectionChildrenArray: Children[] = [
-        {
-            spaceStyle: styles.space,
-            component: (
-                <CustomButton
-                    title="Deck colors"
-                    onPress={() => setOpenPopup({ ...openPopup, colors: true })}
-                    size="sm"
-                    color="#00b0ff"
-                />
-            ),
-        },
-        {
-            spaceStyle: styles.longSpace,
-            component: (
-                <Counter initCount={40} name="Player Life" color="#008080" />
-            ),
-        },
-    ];
-
-    const leftSectionChildrenArray: Children[] = [
-        {
-            spaceStyle: styles.space,
-            component: (
-                <CustomButton
-                    title="Combat Tricks"
-                    onPress={() => {
-                        setCurrentPlay({
-                            ...currentPlay,
-                            ct: rollTable("CT"),
-                        });
-                        setOpenPopup({ ...openPopup, ct: true });
-                    }}
-                    size="md"
-                    color="#00c853"
-                />
-            ),
-        },
-        {
-            spaceStyle: styles.space,
-            component: (
-                <CustomButton
-                    title="Counter Spells"
-                    onPress={() => {
-                        setCurrentPlay({
-                            ...currentPlay,
-                            cs: rollTable("CS"),
-                        });
-                        setOpenPopup({ ...openPopup, cs: true });
-                    }}
-                    size="md"
-                    color="#00b0ff"
-                />
-            ),
-        },
-    ];
-
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topContainer}>
-                <Section
-                    children={rightSectionChildrenArray}
-                    style={styles.rightContainer}
+                <RightSection openPopup={openPopupState} />
+                <LeftSection
+                    currentPlay={currentPlayState}
+                    openPopup={openPopupState}
                 />
-                <Section
-                    children={leftSectionChildrenArray}
-                    style={styles.leftContainer}
+                <PopupGrid
+                    currentPlay={currentPlayState}
+                    openPopup={openPopupState}
+                    selectedColors={selectedColorsState}
                 />
-                {popupArray.map((popup, index) => (
-                    <Popup
-                        key={index}
-                        visible={openPopup[popup.name]}
-                        onClose={() =>
-                            setOpenPopup({ ...openPopup, [popup.name]: false })
-                        }
-                        message={currentPlay[popup.name] || ""}
-                        children={popup.children || null}
-                        title={popup.title}
-                    />
-                ))}
             </View>
             <View style={styles.middleContainer}>
                 <CustomButton title="IQ Turn" onPress={handleIqTurn} />
