@@ -8,6 +8,7 @@ export default function PopUp({
     children,
     message,
     title,
+    closeText = "Close",
 }: PopupProps) {
     return (
         <Modal
@@ -22,7 +23,7 @@ export default function PopUp({
                     <Text style={styles.title}>{title}</Text>
                     <Text style={styles.message}>{message}</Text>
                     <TouchableOpacity style={styles.button} onPress={onClose}>
-                        <Text style={styles.buttonText}>Close</Text>
+                        <Text style={styles.buttonText}>{closeText}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

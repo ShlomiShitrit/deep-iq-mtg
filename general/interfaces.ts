@@ -33,6 +33,7 @@ export interface PopupProps {
     children?: React.ReactNode;
     message: string;
     title: string;
+    closeText?: string;
 }
 
 export interface SectionProps {
@@ -51,6 +52,4 @@ export interface RightSectionProps {
     openPopup: stateType<ObjectStates<boolean>>;
 }
 
-export interface PopupGridProps extends PopAndPlay {
-    selectedColors: stateType<string[]>;
-}
+export interface PopupGridProps extends PopAndPlay {}

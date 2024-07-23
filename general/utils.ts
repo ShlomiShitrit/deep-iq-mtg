@@ -1,38 +1,29 @@
+import _ from "lodash";
 import { TABLES, CS_TABLE, CT_TABLE } from "@general/resources";
-import { stateType } from "@general/types";
+import { stateType, ObjectStates } from "@general/types";
+
 export function randomFromArray(arr: string[] | number[]): string | number {
-    return arr[Math.floor(Math.random() * arr.length)];
+    return arr[_.random(0, arr.length - 1)];
 }
 
-export function randomNumber(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-export function iqTurn(aggroCount: number, selectedColors: string[]) {
-    const color = randomFromArray(selectedColors);
-    const table = TABLES[color as keyof typeof TABLES];
-    const n = randomNumber(1, 6) + aggroCount;
-    let card: string = "";
-    if (n <= -2) {
-        card = table[0].text;
-    } else if (n <= 1 && n >= -1) {
-        card = table[1].text;
-    } else if (n <= 4 && n >= 2) {
-        card = table[2].text;
-    } else if (n <= 6 && n >= 5) {
-        card = table[3].text;
-    } else if (n <= 8 && n >= 7) {
-        card = table[4].text;
-    } else if (n <= 12 && n >= 9) {
-        card = table[5].text;
-    } else if (n >= 13) {
-        card = table[6].text;
-    }
-    return card;
+export function iqTurn(
+    library: string[],
+    hand: string[],
+    aggroCount: number,
+    callBacks: ObjectStates<React.Dispatch<React.SetStateAction<string[]>>>
+) {
+    const { newHand, newLibrary, card, landToPlay } = play(
+        library,
+        hand,
+        aggroCount
+    );
+    callBacks.setHand(newHand);
+    callBacks.setLibrary(newLibrary);
+    return { card, landToPlay };
 }
 
 export function rollTable(table: "CT" | "CS") {
-    const roll = randomNumber(1, 6);
+    const roll = _.random(1, 6);
     const chosenTable = table === "CT" ? CT_TABLE : CS_TABLE;
     return chosenTable[roll as keyof typeof chosenTable].text;
 }
@@ -44,5 +35,72 @@ export function convertStateToObject<T>(
     return {
         state,
         setState,
+    };
+}
+
+export function createLibrary(selectedColors: string[]): string[] {
+    const cardsPerColor = 60 / selectedColors.length;
+    const library: string[] = selectedColors.flatMap((color) => {
+        const cards = Array.from({ length: cardsPerColor }).fill(
+            color
+        ) as string[];
+        return cards;
+    });
+
+    return _.shuffle(library);
+}
+
+export function startGame(
+    library: string[],
+    handCallBack: React.Dispatch<React.SetStateAction<string[]>>,
+    libraryCallBack: React.Dispatch<React.SetStateAction<string[]>>,
+    landCallBack: React.Dispatch<React.SetStateAction<ObjectStates<number>>>
+): void {
+    const hand = library.splice(0, 7);
+
+    handCallBack(hand);
+    libraryCallBack(library);
+
+    const uniqueItems = _.uniq(library);
+    const initLands = _.zipObject(
+        uniqueItems,
+        _.fill(Array(uniqueItems.length), 0)
+    ) as ObjectStates<number>;
+
+    landCallBack(initLands);
+}
+
+export function draw(
+    library: string[],
+    hand: string[]
+): ObjectStates<string[]> {
+    const libraryDeepCopy = _.cloneDeep(library);
+    const newHand = [...hand, libraryDeepCopy.shift() as string];
+    return {
+        newHand,
+        newLibrary: libraryDeepCopy,
+    };
+}
+
+export function play(library: string[], hand: string[], aggroCount: number) {
+    const { newHand, newLibrary } = draw(library, hand);
+
+    const cardFromHand = newHand.shift() as string;
+    const cardFromLibrary = newLibrary.shift() as string;
+    const cardToPlay = randomFromArray([cardFromHand, cardFromLibrary]);
+    const landToPlay =
+        cardToPlay === cardFromHand ? cardFromLibrary : cardFromHand;
+
+    const table = TABLES[cardToPlay as keyof typeof TABLES];
+    let n: number = _.random(1, 6) + aggroCount;
+    if (n < -2) n = -2;
+    if (n > 13) n = 13;
+    const card = table[n.toString() as keyof typeof table].text;
+
+    return {
+        newHand,
+        newLibrary,
+        card,
+        landToPlay,
     };
 }
