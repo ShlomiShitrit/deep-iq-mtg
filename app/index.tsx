@@ -7,17 +7,27 @@ import CustomButton from "@components/CustomButton";
 import LeftSection from "@components/LeftSection";
 import RightSection from "@components/RightSection";
 import PopupGrid from "@/components/PopupGrid";
+import PopUp from "@components/PopUp";
+import ColorPicker from "@components/ColorPicker";
 import { COUNTERS } from "@general/resources";
-import { iqTurn, convertStateToObject } from "@general/utils";
+import {
+    iqTurn,
+    convertStateToObject,
+    createLibrary,
+    startGame,
+} from "@general/utils";
 import { ObjectStates } from "@general/types";
 import { useRecoilState } from "recoil";
-import { aggroAtom } from "@store/atoms";
+import { aggroAtom, libraryAtom } from "@store/atoms";
 import { PLAY_STATE, POPUP_STATE } from "@general/constants";
 import useOrientation from "@hooks/useOrientation";
 
 export default function Index() {
     const [selectedColors, setSelectedColors] = useState<string[]>([]);
     const [aggroCount, _] = useRecoilState(aggroAtom);
+    const [library, setLibrary] = useRecoilState(libraryAtom);
+    const [hand, setHand] = useState<string[]>([]);
+    const [lands, setLands] = useState<ObjectStates<number>>({});
     const [currentPlay, setCurrentPlay] =
         useState<ObjectStates<string>>(PLAY_STATE);
     const [openPopup, setOpenPopup] =
@@ -39,18 +49,46 @@ export default function Index() {
         setOpenPopup
     );
 
-    const selectedColorsState = convertStateToObject<string[]>(
-        selectedColors,
-        setSelectedColors
-    );
-
     const handleIqTurn = () => {
         if (selectedColors.length === 0) {
             return;
         }
-        const card = iqTurn(aggroCount, selectedColors);
+        const callbacks = {
+            setHand,
+            setLibrary,
+        };
+        const { card, landToPlay } = iqTurn(
+            library,
+            hand,
+            aggroCount,
+            callbacks
+        );
         setCurrentPlay({ ...currentPlay, card });
         setOpenPopup({ ...openPopup, card: true });
+        setLands((prevLands) => {
+            return { ...prevLands, [landToPlay]: prevLands[landToPlay] + 1 };
+        });
+    };
+
+    const handleColorSelect = (color: string) => {
+        setSelectedColors((prevColors) => {
+            if (prevColors.includes(color)) {
+                return prevColors.filter((c) => c !== color);
+            } else {
+                return [...prevColors, color];
+            }
+        });
+    };
+
+    const handleColorSubmit = () => {
+        const libraryCards = createLibrary(selectedColors);
+
+        startGame(libraryCards, setHand, setLibrary, setLands);
+
+        setOpenPopup({
+            ...openPopup,
+            colors: false,
+        });
     };
 
     return (
@@ -61,10 +99,21 @@ export default function Index() {
                     currentPlay={currentPlayState}
                     openPopup={openPopupState}
                 />
+                <PopUp
+                    visible={openPopup.colors}
+                    onClose={handleColorSubmit}
+                    title="Select deck colors"
+                    message=""
+                    closeText="Start new game"
+                >
+                    <ColorPicker
+                        selectedColors={selectedColors}
+                        onColorSelect={handleColorSelect}
+                    />
+                </PopUp>
                 <PopupGrid
                     currentPlay={currentPlayState}
                     openPopup={openPopupState}
-                    selectedColors={selectedColorsState}
                 />
             </View>
             <View style={styles.middleContainer}>
