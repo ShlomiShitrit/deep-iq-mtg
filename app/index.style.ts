@@ -22,6 +22,7 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginBottom: "15%",
+        marginTop: "15%",
     },
     rightContainer: {
         position: "absolute",
@@ -30,6 +31,9 @@ export const styles = StyleSheet.create({
     leftContainer: {
         position: "absolute",
         left: 30, // Adjust as needed
+    },
+    middleTopSection: {
+        marginBottom: 20,
     },
     space: {
         marginBottom: 20,

@@ -1,6 +1,12 @@
 import React from "react";
 import { StyleProp } from "react-native";
-import { Children, ObjectStates, stateType } from "@general/types";
+import {
+    Children,
+    ObjectStates,
+    stateType,
+    Block,
+    WideBlock,
+} from "@general/types";
 
 export interface CounterProps {
     initCount: number;
@@ -53,3 +59,8 @@ export interface RightSectionProps {
 }
 
 export interface PopupGridProps extends PopAndPlay {}
+
+export interface DisplayCountProps {
+    blocks: Block[];
+    wideBlocks: WideBlock;
+}

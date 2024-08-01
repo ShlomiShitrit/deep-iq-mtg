@@ -1,6 +1,7 @@
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Image } from "react-native";
 import { styles } from "./ColorPicker.style";
 import { COLORS } from "@general/resources";
+import { MANA_SYMBOLS } from "@/general/constants";
 import { ColorPickerProps } from "@general/interfaces";
 
 export default function ColorPicker({
@@ -14,14 +15,18 @@ export default function ColorPicker({
                     key={color}
                     style={[
                         styles.colorSwatch,
-                        { backgroundColor: color },
                         selectedColors.includes(color) && styles.selected,
                     ]}
                     onPress={() => onColorSelect(color)}
                 >
-                    {selectedColors.includes(color) && (
-                        <View style={styles.selectionIndicator} />
-                    )}
+                    <Image
+                        style={{ width: 40, height: 40 }}
+                        source={{
+                            uri: MANA_SYMBOLS[
+                                color as keyof typeof MANA_SYMBOLS
+                            ],
+                        }}
+                    />
                 </TouchableOpacity>
             ))}
         </View>
