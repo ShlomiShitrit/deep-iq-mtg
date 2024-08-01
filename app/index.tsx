@@ -9,6 +9,7 @@ import RightSection from "@components/RightSection";
 import PopupGrid from "@/components/PopupGrid";
 import PopUp from "@components/PopUp";
 import ColorPicker from "@components/ColorPicker";
+import DisplayCount from "@components/DisplayCount";
 import { COUNTERS } from "@general/resources";
 import {
     iqTurn,
@@ -91,10 +92,29 @@ export default function Index() {
         });
     };
 
+    const displayCountsBlockArray = [
+        { title: "Hand", count: hand.length },
+        { title: "Library", count: library.length },
+    ];
+
+    const displayCountsWideBlock = {
+        title: "Lands",
+        blocks: Object.entries(lands).map(([title, count]) => ({
+            title,
+            count,
+        })),
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topContainer}>
                 <RightSection openPopup={openPopupState} />
+                <View style={styles.middleTopSection}>
+                    <DisplayCount
+                        blocks={displayCountsBlockArray}
+                        wideBlocks={displayCountsWideBlock}
+                    />
+                </View>
                 <LeftSection
                     currentPlay={currentPlayState}
                     openPopup={openPopupState}

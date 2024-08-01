@@ -15,3 +15,13 @@ export type stateType<T> = {
     state: T;
     setState: React.Dispatch<React.SetStateAction<T>>;
 };
+
+export type Block = {
+    title: string;
+    count: number;
+};
+
+export type WideBlock = {
+    title: string;
+    blocks: Block[];
+};
