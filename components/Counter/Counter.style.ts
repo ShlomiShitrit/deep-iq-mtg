@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontWeight: "bold",
-        marginBottom: 20,
+        marginBottom: 10,
     },
     counterContainer: {
         flexDirection: "row",
@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 10,
         elevation: 3,
+        width: "150%",
     },
     button: {
         padding: 10,

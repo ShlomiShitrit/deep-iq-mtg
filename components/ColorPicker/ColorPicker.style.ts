@@ -6,17 +6,23 @@ export const styles = StyleSheet.create({
         justifyContent: "space-around",
         marginVertical: 20,
         paddingHorizontal: 20,
-        gap: 30,
+        gap: 20,
+    },
+    image: {
+        width: 40,
+        height: 40,
     },
     colorSwatch: {
         borderRadius: 25,
-        borderWidth: 2,
+        borderWidth: 4,
         borderColor: "#ddd",
         alignItems: "center",
         justifyContent: "center",
     },
     selected: {
         borderColor: "#6200ee",
+        borderWidth: 4,
+        borderRadius: 25,
     },
     selectionIndicator: {
         width: 24,
