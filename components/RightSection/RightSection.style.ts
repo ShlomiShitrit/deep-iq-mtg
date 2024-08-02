@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     longSpace: {
-        marginTop: 150,
+        marginTop: 50,
         marginRight: 30,
     },
     space: {
@@ -11,5 +11,7 @@ export const styles = StyleSheet.create({
     rightContainer: {
         position: "absolute",
         right: 30,
+        width: "15%",
+        marginRight: 40,
     },
 });

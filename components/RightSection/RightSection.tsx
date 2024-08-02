@@ -1,6 +1,5 @@
-import { View, Text } from "react-native";
 import { RightSectionProps } from "@general/interfaces";
-import Counter from "@components/Counter";
+import LifeCounter from "@/components/LifeCounter";
 import CustomButton from "@components/CustomButton";
 import Section from "@components/Section";
 import { Children } from "@general/types";
@@ -12,7 +11,7 @@ export default function RightSection({ openPopup }: RightSectionProps) {
             spaceStyle: styles.space,
             component: (
                 <CustomButton
-                    title="Deck colors"
+                    title="Start New Game"
                     onPress={() =>
                         openPopup.setState({ ...openPopup.state, colors: true })
                     }
@@ -23,9 +22,7 @@ export default function RightSection({ openPopup }: RightSectionProps) {
         },
         {
             spaceStyle: styles.longSpace,
-            component: (
-                <Counter initCount={40} name="Player Life" color="#008080" />
-            ),
+            component: <LifeCounter titles={["Opponent", "Player"]} />,
         },
     ];
     return (

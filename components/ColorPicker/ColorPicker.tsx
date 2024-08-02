@@ -20,7 +20,7 @@ export default function ColorPicker({
                     onPress={() => onColorSelect(color)}
                 >
                     <Image
-                        style={{ width: 40, height: 40 }}
+                        style={styles.image}
                         source={{
                             uri: MANA_SYMBOLS[
                                 color as keyof typeof MANA_SYMBOLS

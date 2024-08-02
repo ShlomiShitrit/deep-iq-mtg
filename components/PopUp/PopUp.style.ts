@@ -8,11 +8,13 @@ export const styles = StyleSheet.create({
         backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
     popup: {
-        width: 300,
+        width: 400,
+        height: 300,
         padding: 20,
         backgroundColor: "#fff",
         borderRadius: 10,
         alignItems: "center",
+        justifyContent: "center",
     },
     title: {
         fontSize: 20,

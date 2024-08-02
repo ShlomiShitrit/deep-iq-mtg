@@ -4,11 +4,12 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#f5f5f5",
+        alignItems: "center",
     },
     bottomContainer: {
         position: "absolute",
         bottom: 20, // Adjust as needed
-        width: "100%",
+        width: "50%",
         alignItems: "center",
     },
     topContainer: {

@@ -64,3 +64,16 @@ export interface DisplayCountProps {
     blocks: Block[];
     wideBlocks: WideBlock;
 }
+
+export interface HalfButtonProps {
+    setCount: React.Dispatch<React.SetStateAction<number>>;
+    intervalRef: React.MutableRefObject<NodeJS.Timeout | null>;
+}
+
+export interface LifeButtonsProps {
+    count: number;
+}
+
+export interface LifeCounterProps {
+    titles: string[];
+}
