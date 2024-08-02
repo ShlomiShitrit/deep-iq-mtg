@@ -6,10 +6,11 @@ export const styles = StyleSheet.create({
         backgroundColor: "#f5f5f5",
         alignItems: "center",
     },
-    bottomContainer: {
+    bottomLeftContainer: {
         position: "absolute",
         bottom: 20, // Adjust as needed
-        width: "50%",
+        left: 0, // Adjust as needed
+        // width: "15%",
         alignItems: "center",
     },
     topContainer: {

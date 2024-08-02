@@ -139,7 +139,7 @@ export default function Index() {
             <View style={styles.middleContainer}>
                 <CustomButton title="IQ Turn" onPress={handleIqTurn} />
             </View>
-            <View style={styles.bottomContainer}>
+            <View style={styles.bottomLeftContainer}>
                 <SmallGrid Component={Counter} componentsArray={COUNTERS} />
             </View>
         </SafeAreaView>

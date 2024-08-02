@@ -1,22 +1,18 @@
 import { SafeAreaView, View } from "react-native";
 import { styles } from "./SmallGrid.style";
 import { SmallGridProps } from "@general/interfaces";
+import Counter from "@components/Counter";
 
-export default function SmallGrid({
-    Component,
-    componentsArray,
-}: SmallGridProps) {
+export default function SmallGrid({ componentsArray }: SmallGridProps) {
     return (
-        <SafeAreaView style={styles.safeArea}>
-            <View style={styles.container}>
-                <View style={styles.gridContainer}>
-                    {componentsArray.map((comp, index) => (
-                        <View key={index} style={styles.gridItem}>
-                            <Component {...comp} />
-                        </View>
-                    ))}
-                </View>
+        <View style={styles.container}>
+            <View style={styles.row}>
+                <Counter {...componentsArray[0]}/>
             </View>
-        </SafeAreaView>
+            <View style={styles.row}>
+                <Counter {...componentsArray[2]} />
+                <Counter {...componentsArray[1]} />
+            </View>
+        </View>
     );
 }
