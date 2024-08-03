@@ -25,3 +25,12 @@ export type WideBlock = {
     title: string;
     blocks: Block[];
 };
+
+export type Card = {
+    text: string;
+    ct: number;
+    cs: number | string;
+    sorcery?: boolean;
+};
+
+export type Table = ObjectStates<ObjectStates<Card>>;
