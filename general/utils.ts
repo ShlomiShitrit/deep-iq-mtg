@@ -15,7 +15,8 @@ export function iqTurn(
     const { newHand, newLibrary, card, landToPlay } = play(
         library,
         hand,
-        aggroCount
+        aggroCount,
+        callBacks.setGraveyard
     );
     callBacks.setHand(newHand);
     callBacks.setLibrary(newLibrary);
@@ -82,12 +83,20 @@ export function draw(
     };
 }
 
-export function play(library: string[], hand: string[], aggroCount: number) {
+export function play(
+    library: string[],
+    hand: string[],
+    aggroCount: number,
+    setGraveyard: React.Dispatch<React.SetStateAction<string[]>>
+) {
     const { newHand, newLibrary } = draw(library, hand);
 
     const cardFromHand = newHand.shift() as string;
     const cardFromLibrary = newLibrary.shift() as string;
-    const cardToPlay = randomFromArray([cardFromHand, cardFromLibrary]);
+    const cardToPlay = randomFromArray([
+        cardFromHand,
+        cardFromLibrary,
+    ]) as string;
     const landToPlay =
         cardToPlay === cardFromHand ? cardFromLibrary : cardFromHand;
 
@@ -95,12 +104,13 @@ export function play(library: string[], hand: string[], aggroCount: number) {
     let n: number = _.random(1, 6) + aggroCount;
     if (n < -2) n = -2;
     if (n > 13) n = 13;
-    const card = table[n.toString() as keyof typeof table].text;
-
+    const card = table[n.toString() as keyof typeof table];
+    if (card.sorcery)
+        setGraveyard((prevGraveyard) => [...prevGraveyard, cardToPlay]);
     return {
         newHand,
         newLibrary,
-        card,
+        card: card.text,
         landToPlay,
     };
 }

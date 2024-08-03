@@ -29,6 +29,7 @@ export default function Index() {
     const [library, setLibrary] = useRecoilState(libraryAtom);
     const [hand, setHand] = useState<string[]>([]);
     const [lands, setLands] = useState<ObjectStates<number>>({});
+    const [graveyard, setGraveyard] = useState<string[]>([]);
     const [currentPlay, setCurrentPlay] =
         useState<ObjectStates<string>>(PLAY_STATE);
     const [openPopup, setOpenPopup] =
@@ -57,6 +58,7 @@ export default function Index() {
         const callbacks = {
             setHand,
             setLibrary,
+            setGraveyard,
         };
         const { card, landToPlay } = iqTurn(
             library,
@@ -95,6 +97,7 @@ export default function Index() {
     const displayCountsBlockArray = [
         { title: "Hand", count: hand.length },
         { title: "Library", count: library.length },
+        { title: "Graveyard", count: graveyard.length },
     ];
 
     const displayCountsWideBlock = {

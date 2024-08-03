@@ -1,4 +1,6 @@
 import { CounterProps } from "@general/interfaces";
+import { Table } from "@general/types";
+
 export const COUNTERS: CounterProps[] = [
     {
         initCount: 0,
@@ -36,12 +38,13 @@ export const buttonSize = {
     },
 };
 
-export const TABLES = {
+export const TABLES: Table = {
     black: {
         "-2": {
             text: "All creatures get -N/-N until end of turn",
             ct: 0,
             cs: 0,
+            sorcery: true,
         },
         "-1": {
             text: "Creature (Deathtouch). Target opponent reveals their hand and discards N creature cards revealed this way",
@@ -77,11 +80,13 @@ export const TABLES = {
             text: "Destroy up to N/3 target creatures an opponent controls. Lose 1 life for each creature destroyed this way.",
             ct: 0,
             cs: 0,
+            sorcery: true,
         },
         "6": {
             text: "Destroy up to N/3 target creatures an opponent controls. Lose 1 life for each creature destroyed this way.",
             ct: 0,
             cs: 0,
+            sorcery: true,
         },
         "7": {
             text: "Enchantment - 'Whenever you lose life, return a card at random from your graveyard to your hand.'",
@@ -117,6 +122,7 @@ export const TABLES = {
             text: "Sorcery - Each player sacrifices N creatures. D Creatures (Lifelink).",
             ct: 0,
             cs: 0,
+            sorcery: true,
         },
     },
     green: {
@@ -144,16 +150,19 @@ export const TABLES = {
             text: "Destroy up to N/3 target artifacts, enchantments, or creatures with flying an opponent controls.",
             ct: 0,
             cs: 0,
+            sorcery: true,
         },
         "3": {
             text: "Destroy up to N/3 target artifacts, enchantments, or creatures with flying an opponent controls.",
             ct: 0,
             cs: 0,
+            sorcery: true,
         },
         "4": {
             text: "Destroy up to N/3 target artifacts, enchantments, or creatures with flying an opponent controls.",
             ct: 0,
             cs: 0,
+            sorcery: true,
         },
         "5": {
             text: "Creature (+1/+1, Vigilance). Put N/2 cards from your graveyard into play.",
@@ -241,11 +250,13 @@ export const TABLES = {
             text: "At the beginning of target opponent's next upkeep, tap up N/2 target creatures they control. Counterspell.",
             ct: 0,
             cs: 1,
+            sorcery: true,
         },
         "6": {
             text: "At the beginning of target opponent's next upkeep, tap up N/2 target creatures they control. Counterspell.",
             ct: 0,
             cs: 1,
+            sorcery: true,
         },
         "7": {
             text: "Artifact - `During each opponent's upkeep, they detain an undetained permanent they control.`",
@@ -293,16 +304,19 @@ export const TABLES = {
             text: "Deal 2*N damage to target creature with toughness less than or equal to 2*N an opponent controls.",
             ct: 0,
             cs: 0,
+            sorcery: true,
         },
         "0": {
             text: "Deal 2*N damage to target creature with toughness less than or equal to 2*N an opponent controls.",
             ct: 0,
             cs: 0,
+            sorcery: true,
         },
         "1": {
             text: "Deal 2*N damage to target creature with toughness less than or equal to 2*N an opponent controls.",
             ct: 0,
             cs: 0,
+            sorcery: true,
         },
         "2": {
             text: "2 Creatures (Haste). Reveal the top N/2 cards of your library and put all non-mountains revealed this way into your graveyard.",
@@ -333,11 +347,13 @@ export const TABLES = {
             text: "Destroy target artifact an opponent controls. Then, destroy up to N/2 target artifacts an opponent controls.",
             ct: 0,
             cs: 0,
+            sorcery: true,
         },
         "8": {
             text: "Destroy target artifact an opponent controls. Then, destroy up to N/2 target artifacts an opponent controls.",
             ct: 0,
             cs: 0,
+            sorcery: true,
         },
         "9": {
             text: "N/2 Creatures (+2/+0). Deal 1 damage to each player and each creature without flying. Creatures without flying can't block this turn.",
@@ -370,21 +386,25 @@ export const TABLES = {
             text: "Destroy all creatures. They can't be regenerated.",
             ct: 0,
             cs: 0,
+            sorcery: true,
         },
         "-1": {
             text: "Gain N + 4 life. Combat Trick.",
             ct: 1,
             cs: 0,
+            sorcery: true,
         },
         "0": {
             text: "Gain N + 4 life. Combat Trick.",
             ct: 1,
             cs: 0,
+            sorcery: true,
         },
         "1": {
             text: "Gain N + 4 life. Combat Trick.",
             ct: 1,
             cs: 0,
+            sorcery: true,
         },
         "2": {
             text: "2 Creatures (+1/+1).",
