@@ -1,12 +1,15 @@
 import { View, Text, Image } from "react-native";
-import { styles } from "./DisplayCount.style";
+import { tabletStyles, phoneStyles } from "./DisplayCount.style";
 import { DisplayCountProps } from "@general/interfaces";
 import { MANA_SYMBOLS } from "@general/constants";
+import useDevice from "@/hooks/useDevice";
 
 export default function DisplayCount({
     blocks,
     wideBlocks,
 }: DisplayCountProps) {
+    const { isTablet } = useDevice();
+    const styles = isTablet ? tabletStyles : phoneStyles;
     return (
         <View style={styles.container}>
             {blocks.map((block, index) => (

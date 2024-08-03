@@ -3,12 +3,16 @@ import { View, Text } from "react-native";
 import HalfButton from "@components/HalfButton";
 import LifeButtons from "@components/LifeButtons";
 import { LifeCounterProps } from "@general/interfaces";
-import { styles } from "./LifeCounter.style";
+import { tabletStyles, phoneStyles } from "./LifeCounter.style";
+import useDevice from "@/hooks/useDevice";
 
 export default function LifeCounter({ titles }: LifeCounterProps) {
     const [playerLife, setPlayerLife] = useState<number>(40);
     const [iqLife, setIqLife] = useState<number>(40);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+    const { isTablet } = useDevice();
+    const styles = isTablet ? tabletStyles : phoneStyles;
 
     return (
         <View style={styles.container}>
