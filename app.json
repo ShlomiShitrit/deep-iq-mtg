@@ -20,7 +20,8 @@
                 "foregroundImage": "./assets/images/adaptive-icon.png",
                 "backgroundColor": "#ffffff"
             },
-            "package": "com.akunh11.deepiqmtg"
+            "package": "com.akunh11.deepiqmtg",
+            "permissions": ["VIBRATE"]
         },
         "web": {
             "bundler": "metro",

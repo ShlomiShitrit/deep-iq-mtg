@@ -1,13 +1,18 @@
 import React from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Vibration } from "react-native";
 import { HalfButtonProps } from "@general/interfaces";
 import { styles } from "./HalfButton.style";
 
 export default function HalfButton({ setCount, intervalRef }: HalfButtonProps) {
+    const triggerVibration = () => {
+        Vibration.vibrate(100);
+    };
+
     const handleIncrement = (
         setter: React.Dispatch<React.SetStateAction<number>>,
         value: number
     ) => {
+        triggerVibration();
         setter((prev) => prev + value);
     };
 
@@ -16,6 +21,7 @@ export default function HalfButton({ setCount, intervalRef }: HalfButtonProps) {
         value: number,
         limit: number
     ) => {
+        triggerVibration();
         setter((prev) => (prev > limit ? prev - value : 0));
     };
 
