@@ -3,9 +3,12 @@ import LifeCounter from "@/components/LifeCounter";
 import CustomButton from "@components/CustomButton";
 import Section from "@components/Section";
 import { Children } from "@general/types";
-import { styles } from "./RightSection.style";
+import { tabletStyles, phoneStyles } from "./RightSection.style";
+import useDevice from "@/hooks/useDevice";
 
 export default function RightSection({ openPopup }: RightSectionProps) {
+    const { isTablet } = useDevice();
+    const styles = isTablet ? tabletStyles : phoneStyles;
     const rightSectionChildrenArray: Children[] = [
         {
             spaceStyle: styles.space,
@@ -15,7 +18,7 @@ export default function RightSection({ openPopup }: RightSectionProps) {
                     onPress={() =>
                         openPopup.setState({ ...openPopup.state, colors: true })
                     }
-                    size="sm"
+                    size="md"
                     color="#00b0ff"
                 />
             ),

@@ -4,7 +4,7 @@ import { Table } from "@general/types";
 export const COUNTERS: CounterProps[] = [
     {
         initCount: 0,
-        name: "Aggro",
+        name: "Ag",
         isNegativeAllowed: true,
         color: "#ff6f00",
         isAggro: true,
@@ -24,18 +24,40 @@ export const COUNTERS: CounterProps[] = [
 export const COLORS = ["black", "green", "blue", "red", "white"];
 
 export const buttonSize = {
-    sm: {
-        paddingVertical: 10,
-        paddingHorizontal: 15,
+    tablet: {
+        sm: {
+            paddingVertical: 10,
+            paddingHorizontal: 15,
+        },
+        md: {
+            paddingVertical: 20,
+            paddingHorizontal: 20,
+        },
+        lg: {
+            paddingVertical: 30,
+            paddingHorizontal: 25,
+        },
+
     },
-    md: {
-        paddingVertical: 20,
-        paddingHorizontal: 20,
-    },
-    lg: {
-        paddingVertical: 30,
-        paddingHorizontal: 25,
-    },
+    phone: {
+        sm: {
+            paddingVertical: 10,
+            paddingHorizontal: 15,
+            width: 131,
+        },
+        md: {
+            paddingVertical: 10,
+            paddingHorizontal: 15,
+            width: 150,
+        },
+        lg: {
+            paddingVertical: 25,
+            paddingHorizontal: 10,
+            width: 100,
+        },
+
+    }
+    
 };
 
 export const TABLES: Table = {

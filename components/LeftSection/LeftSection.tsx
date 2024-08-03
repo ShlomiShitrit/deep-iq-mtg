@@ -2,13 +2,17 @@ import { Children } from "@general/types";
 import { LeftSectionProps } from "@general/interfaces";
 import CustomButton from "@components/CustomButton";
 import Section from "@components/Section";
-import { styles } from "./LeftSection.style";
+import { tabletStyles, phoneStyles } from "./LeftSection.style";
 import { rollTable } from "@general/utils";
+import useDevice from "@/hooks/useDevice";
 
 export default function LeftSection({
     currentPlay,
     openPopup,
 }: LeftSectionProps) {
+    const { isTablet } = useDevice();
+    const styles = isTablet ? tabletStyles : phoneStyles;
+    
     const leftSectionChildrenArray: Children[] = [
         {
             spaceStyle: styles.space,
@@ -22,7 +26,7 @@ export default function LeftSection({
                         });
                         openPopup.setState({ ...openPopup.state, ct: true });
                     }}
-                    size="md"
+                    size="sm"
                     color="#00c853"
                 />
             ),
@@ -39,7 +43,7 @@ export default function LeftSection({
                         });
                         openPopup.setState({ ...openPopup.state, cs: true });
                     }}
-                    size="md"
+                    size="sm"
                     color="#00b0ff"
                 />
             ),

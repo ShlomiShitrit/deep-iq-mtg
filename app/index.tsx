@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { SafeAreaView, View } from "react-native";
-import { styles } from "./index.style";
+import { tabletStyles, phoneStyles } from "./index.style";
 import Counter from "@components/Counter";
 import SmallGrid from "@components/SmallGrid";
 import CustomButton from "@components/CustomButton";
@@ -22,6 +22,7 @@ import { useRecoilState } from "recoil";
 import { aggroAtom, libraryAtom } from "@store/atoms";
 import { PLAY_STATE, POPUP_STATE } from "@general/constants";
 import useOrientation from "@hooks/useOrientation";
+import useDevice from "@/hooks/useDevice";
 
 export default function Index() {
     const [selectedColors, setSelectedColors] = useState<string[]>([]);
@@ -36,6 +37,8 @@ export default function Index() {
         useState<ObjectStates<boolean>>(POPUP_STATE);
 
     const changeScreenOrientation = useOrientation("LANDSCAPE");
+
+    const { isTablet } = useDevice();
 
     useEffect(() => {
         changeScreenOrientation();
@@ -108,11 +111,13 @@ export default function Index() {
         })),
     };
 
+    const styles = isTablet ? tabletStyles : phoneStyles;
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topContainer}>
                 <RightSection openPopup={openPopupState} />
-                <View style={styles.middleTopSection}>
+                <View style={tabletStyles.middleTopSection}>
                     <DisplayCount
                         blocks={displayCountsBlockArray}
                         wideBlocks={displayCountsWideBlock}

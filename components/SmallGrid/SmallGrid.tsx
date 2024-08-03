@@ -1,9 +1,12 @@
 import { View } from "react-native";
-import { styles } from "./SmallGrid.style";
+import { phoneStyles, tabletStyles } from "./SmallGrid.style";
 import { SmallGridProps } from "@general/interfaces";
 import Counter from "@components/Counter";
+import useDevice from "@/hooks/useDevice";
 
 export default function SmallGrid({ componentsArray }: SmallGridProps) {
+    const { isTablet } = useDevice();
+    const styles = isTablet ? tabletStyles : phoneStyles;
     return (
         <View style={styles.container}>
             <View style={styles.column}>
